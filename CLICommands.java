@@ -12,12 +12,12 @@ public class CLICommands {
         try {
             doc = args[0];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("File not provided on command line.");
+            System.out.println("File not provided as argument.");
             System.exit(0);
         }
 
         try {
-            reader = new Scanner(new File("/home/neptune/Code/Projects/FastFlashcard/flashcards/" + doc));
+            reader = new Scanner(new File("/home/neptune/Projects/FastFlashcard/flashcards/" + doc));
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
             System.exit(0);

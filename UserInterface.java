@@ -25,6 +25,9 @@ public class UserInterface {
             System.out.println(deck);
         }
         System.out.println();
+
+        // decks are displayed, prompt user for their selection
+        selectDeck();
     }
 
 
@@ -38,6 +41,8 @@ public class UserInterface {
         // the selects deck is retrieved from the database
         selectedDeck = Database.getDeck(decks.get(UserInputMethods.getIntInput() - 1));
 
+        // deck has been selected, display deck options
+        displayDeckOptions();
     }
 
 
@@ -52,6 +57,9 @@ public class UserInterface {
         System.out.println("2. Review cards");
         System.out.println("3. Add a new card to this deck");
         System.out.println("4. Delete this deck\n");
+
+        // deck options displayed, prompt user for their selection of what to do with the deck
+        selectDeckOption();
     }
 
 
@@ -77,6 +85,7 @@ public class UserInterface {
                 selectedDeck.deleteDeck();
                 break;
         }
+
     }
 
     

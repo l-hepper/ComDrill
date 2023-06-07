@@ -32,7 +32,6 @@ public class Deck {
      * This method enters a loop, adding new cards to the deck as the user provides information for the front and back
      */
     public void addNewCard() {
-        Scanner scan = new Scanner(System.in);
 
         System.out.println("in addNewCard(), the deck size is " + this.deck.size());
 
@@ -40,10 +39,10 @@ public class Deck {
         while (true) {
             
             System.out.print("Add card front: ");
-            String cardFront = scan.nextLine();
+            String cardFront = UserInputMethods.getStringInput();
 
             System.out.print("Add card back: ");
-            String cardBack = scan.nextLine();
+            String cardBack = UserInputMethods.getStringInput();
 
             Card newCard = new Card(deck.size(), cardFront, cardBack);
             Database.addCardToDeck(newCard, this.name);
@@ -53,9 +52,8 @@ public class Deck {
 
             // ask if the user wants to add another card
             System.out.print("Add another? Y/N: ");
-            String userChoice = scan.nextLine();
+            String userChoice = UserInputMethods.getStringInput();
             if (userChoice.equals("N") || userChoice.equals("n")) {
-                scan.close();
                 break;
             }
         }

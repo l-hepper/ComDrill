@@ -2,13 +2,10 @@
 
 public class CLICommands {
     public static void main(String[] args) throws Exception {
+
         
-        while (true) {
-            UserInterface.displayDecks();
-            UserInterface.selectDeck();
-            UserInterface.displayDeckOptions();
-            UserInterface.selectDeckOption();
-        }
+        System.out.println(UserInputMethods.getIntInput());
+        
     }
 
     // create a new card

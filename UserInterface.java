@@ -34,11 +34,9 @@ public class UserInterface {
     public static void selectDeck() {
 
         System.out.print("Select deck: ");
-        Scanner scan = new Scanner(System.in);
 
         // the selects deck is retrieved from the database
-        selectedDeck = Database.getDeck(decks.get(scan.nextInt() - 1));
-
+        selectedDeck = Database.getDeck(decks.get(UserInputMethods.getIntInput() - 1));
 
     }
 
@@ -63,30 +61,25 @@ public class UserInterface {
     public static void selectDeckOption() {
 
         System.out.print("Select option: ");
-        Scanner scan = new Scanner(System.in);
-
-        String choice = "";
-        if (scan.hasNextLine()) {
-            choice = scan.nextLine();
-        }
-
+        int choice = UserInputMethods.getIntInput();
 
         switch(choice) {
-            case "1": 
+            case 1: 
                 selectedDeck.drillCards();
                 break;
-            case "2":
+            case 2:
                 selectedDeck.reviewCards();
                 break;
-            case "3":
+            case 3:
                 selectedDeck.addNewCard();
                 break;
-            case "4":
+            case 4:
                 selectedDeck.deleteDeck();
                 break;
         }
-        scan.close();
     }
+
+    
 
     
 

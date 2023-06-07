@@ -1,35 +1,71 @@
+import java.util.List;
+import java.util.Scanner;
+
 public class Deck {
 
-    private Card[] deck;
+    private String name;
+    private List<Card> deck;
 
-    public Deck() {
-        this.deck = new Card[10];
+    public Deck(String name) {
+        this.name = name;
     }
 
-    public Deck(Card[] deck) {
+    public Deck(String name, List<Card> cards) {
+        this.name = name;
+        this.deck = cards;
+    }
+
+    public Deck(List<Card> deck) {
         this.deck = deck;
     }
 
-
-    // iterates over all of the cards and displays them to the screen
-    public void reviewDeck(Card[] deck) {
-        // this method allows the user to simply review all of the cards in the deck one by one, useful for learning
-
-        // iterate through each card of the passed in deck
-        // display each card to the user
-
+    public void drillCards() {
+        // functionality for 'drilling' cards by entering the answer manually
     }
-    
+
+    public void reviewCards() {
+        // iterate through the deck of cards displaying the front and back of each card
+    }
 
 
-    // iterates over all the cards and displays them to the user, but it also requires the user to enter the correct answer from the 'back' of the card
-    public void drillDeck() {
-        // this method goes through the cards one by one and the user must enter the correct answer for it to count as 'correct'
+    /**
+     * This method enters a loop, adding new cards to the deck as the user provides information for the front and back
+     */
+    public void addNewCard() {
+        Scanner scan = new Scanner(System.in);
 
-        // display a card to the user
-        // ask them to enter the correct answer
-        // verify if the answer is correct
-        // if it is correct the card is marked as 'correct'
-        // if it is not correct the card is marked as 'incorrect'
+        System.out.println("in addNewCard(), the deck size is " + this.deck.size());
+
+        // loop adds new cards back on the user's provided data
+        while (true) {
+            
+            System.out.print("Add card front: ");
+            String cardFront = scan.nextLine();
+
+            System.out.print("Add card back: ");
+            String cardBack = scan.nextLine();
+
+            Card newCard = new Card(deck.size(), cardFront, cardBack);
+            Database.addCardToDeck(newCard, this.name);
+            this.deck.add(newCard);
+
+            System.out.println("Card added to deck");
+
+            // ask if the user wants to add another card
+            System.out.print("Add another? Y/N: ");
+            String userChoice = scan.nextLine();
+            if (userChoice.equals("N") || userChoice.equals("n")) {
+                scan.close();
+                break;
+            }
+        }
+    }
+
+    public void deleteDeck() {
+        // functionality for deleting the entire deck of cards
+    }
+
+    public String toString() {
+        return this.name;
     }
 }

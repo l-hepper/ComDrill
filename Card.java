@@ -11,7 +11,8 @@ public class Card {
     }
 
     public Card(String front, String back) {
-
+        this.front = front;
+        this.back = back;
     }
 
     public int getid() {

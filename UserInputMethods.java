@@ -31,11 +31,10 @@ public class UserInputMethods {
         String stringInput = "None";
 
         while (true) {
-
             if (scanner.hasNextLine()) {
                 stringInput = scanner.nextLine();
                 break;
-            } else {
+            } else if (scanner.nextLine().equals(" ")) {
                 System.out.println("Try again");
             }
         }

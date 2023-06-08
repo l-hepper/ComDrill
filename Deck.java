@@ -23,8 +23,21 @@ public class Deck {
         // functionality for 'drilling' cards by entering the answer manually
     }
 
+    /**
+     * This methods iterates through each of the cards both front and back
+     */
     public void reviewCards() {
-        // iterate through the deck of cards displaying the front and back of each card
+
+        for (Card card: this.deck) {
+            System.out.println("FRONT: " + card.getFront());
+
+            System.out.println("BACK: " + card.getBack());
+
+            System.out.print("Next? ENTER");
+            UserInputMethods.getStringInput();
+        }
+
+        System.out.println("END OF DECK"); // for debugging
     }
 
 
@@ -39,13 +52,15 @@ public class Deck {
         while (true) {
             
             System.out.print("Add card front: ");
-            String cardFront = UserInputMethods.getStringInput();
+            String front = UserInputMethods.getStringInput();
 
             System.out.print("Add card back: ");
-            String cardBack = UserInputMethods.getStringInput();
+            String back = UserInputMethods.getStringInput();
 
-            Card newCard = new Card(deck.size(), cardFront, cardBack);
-            Database.addCardToDeck(newCard, this.name);
+            Card newCard = new Card(front, back);
+
+            // this DeckDAO will actually be a 'CardDAO'
+            DeckDAO.addCardToDeck(newCard, this.name);
             this.deck.add(newCard);
 
             System.out.println("Card added to deck");

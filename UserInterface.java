@@ -1,6 +1,4 @@
 import java.util.List;
-import java.util.Scanner;
-
 
 /**
  * This class displays information to the user and processes user input.
@@ -9,20 +7,21 @@ public class UserInterface {
 
     public static Deck selectedDeck = null;
     // TODO - does decks belong here in the userinterface class? probs not.
-    public static List<String> decks = null;
+    public static List<String> deckNames = null;
+
 
     /**
      * Displays all of the user's decks on the main screen
      */
     public static void displayDecks() {
 
-        System.out.println("\nDECKS:\n");
+        System.out.println("\nDecks:\n");
 
-        decks = Database.getDeckNames();
+        deckNames = DeckDAO.getDeckNames();
 
-        for (String deck: decks) {
-            System.out.print(decks.indexOf(deck) + 1 + ": ");
-            System.out.println(deck);
+        for (int i = 0; i < deckNames.size(); i++) {
+            System.out.print((i + 1) + ": ");
+            System.out.println(deckNames.get(i));
         }
         System.out.println();
 
@@ -38,8 +37,8 @@ public class UserInterface {
 
         System.out.print("Select deck: ");
 
-        // the selects deck is retrieved from the database
-        selectedDeck = Database.getDeck(decks.get(UserInputMethods.getIntInput() - 1));
+        // the selected deck is retrieved from the database
+        selectedDeck = DeckDAO.getDeck(deckNames.get(UserInputMethods.getIntInput() - 1));
 
         // deck has been selected, display deck options
         displayDeckOptions();
@@ -64,11 +63,12 @@ public class UserInterface {
 
 
     /**
-     * Prompts the user to select a deck option
+     * Prompts the user to select a deck option which is then called from the deck class
      */
     public static void selectDeckOption() {
 
         System.out.print("Select option: ");
+        System.out.println();
         int choice = UserInputMethods.getIntInput();
 
         switch(choice) {

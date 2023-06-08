@@ -6,20 +6,20 @@ import java.util.List;
 /**
  * This class manages all interactions with the SQLite database of user flashcards
  */
-public class Database {
+public class DeckDAO {
 
     // url for connecting to the database
     private static final String dbURL = "jdbc:sqlite:database/flashcards.db";
 
 
     /**
-     * Creates a new table representing a deck of flashcards as per the user's requested name
+     * Creates a new entry into the Decks table representing a deck of flashcards as per the user's requested name
      * @param deckName the name the user would like to name the deck
      */
     public static void createDeck(String deckName) {
 
-        // formats the name for SQLite requirements
-        String formattedName = formatDeckName(deckName);
+        // // formats the name for SQLite requirements
+        // String formattedName = formatDeckName(deckName);
         
         Connection connection = null;
 
@@ -27,10 +27,7 @@ public class Database {
             connection = DriverManager.getConnection(dbURL);
             Statement sqlStatement = connection.createStatement();
 
-            sqlStatement.executeUpdate("CREATE TABLE " + formattedName + 
-                                        " (card_id INT PRIMARY KEY NOT NULL," + 
-                                        "card_front TEXT NOT NULL," + 
-                                        "card_back TEXT NOT NULL)");
+            sqlStatement.executeUpdate("INSERT INTO Decks (DeckName, NumberOfCards, Active) VALUES ('" + deckName + "', 0, 1);");
 
             sqlStatement.close();
             connection.close();
@@ -47,8 +44,7 @@ public class Database {
             connection = DriverManager.getConnection(dbURL);
             Statement sqlStatement = connection.createStatement();
 
-            sqlStatement.executeUpdate("INSERT INTO " + deckName + 
-                                        " VALUES (" + card.getid() + ", '" + card.getFront() + "', '" + card.getBack() + "')");
+            sqlStatement.executeUpdate("INSERT INTO Cards VALUES (NULL, '" + card.getFront() + "', '" + card.getBack() + "', '" + deckName + "');");
 
             sqlStatement.close();
             connection.close();
@@ -70,10 +66,10 @@ public class Database {
             connection = DriverManager.getConnection(dbURL);
             Statement sqlStatement = connection.createStatement();
 
-            ResultSet results = sqlStatement.executeQuery("SELECT * FROM " + deckName);
+            ResultSet results = sqlStatement.executeQuery("SELECT * FROM Cards WHERE DeckName='" + deckName + "';");
 
             while(results.next()) {
-                cards.add(new Card(Integer.valueOf(results.getString(1)), results.getString(2), results.getString(3)));
+                cards.add(new Card(results.getString(2), results.getString(3)));
             }
 
             sqlStatement.close();
@@ -92,7 +88,7 @@ public class Database {
      */
     public static void deleteDeck(String deckName) {
         // formats the name for SQLite requirements
-        String formattedName = formatDeckName(deckName);
+        // String formattedName = formatDeckName(deckName);
         
         Connection connection = null;
 
@@ -100,7 +96,7 @@ public class Database {
             connection = DriverManager.getConnection(dbURL);
             Statement sqlStatement = connection.createStatement();
 
-            sqlStatement.executeUpdate("DROP TABLE " + formattedName);
+            sqlStatement.executeUpdate("DELETE FROM Decks WHERE DeckName='" + deckName + "';");
             sqlStatement.close();
             connection.close();
         } catch (SQLException e) {
@@ -116,16 +112,16 @@ public class Database {
     public static List<String> getDeckNames() {
 
         Connection connection = null;
-        List<String> decks = new ArrayList<>();
+        List<String> deckNames = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(dbURL);
             Statement sqlStatement = connection.createStatement();
 
-            ResultSet results = sqlStatement.executeQuery("SELECT name FROM sqlite_schema WHERE type='table'");
+            ResultSet results = sqlStatement.executeQuery("SELECT DeckName FROM Decks");
 
             while(results.next()) {
-                decks.add(results.getString(1));
+                deckNames.add(results.getString(1));
             }
 
             sqlStatement.close();
@@ -134,7 +130,7 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
 
-        return decks;
+        return deckNames;
     }
 
 

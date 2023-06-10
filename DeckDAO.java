@@ -31,7 +31,10 @@ public class DeckDAO {
 
             sqlStatement.close();
             connection.close();
+
+            System.out.println("\nDeck created successfully.\n");
         } catch (SQLException e) {
+            System.out.println("ERROR: UNABLE TO CREATE DECK");
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
     }
@@ -97,6 +100,8 @@ public class DeckDAO {
             Statement sqlStatement = connection.createStatement();
 
             sqlStatement.executeUpdate("DELETE FROM Decks WHERE DeckName='" + deckName + "';");
+            sqlStatement.executeUpdate("DELETE FROM Cards WHERE DeckName='" + deckName + "';");
+            
             sqlStatement.close();
             connection.close();
         } catch (SQLException e) {

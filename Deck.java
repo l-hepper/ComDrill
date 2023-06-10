@@ -19,8 +19,27 @@ public class Deck {
         this.deck = deck;
     }
 
+
+    /**
+     * This method iterates through all of the cards in the deck, prompting the user for the correct answer on the BACK of the card
+     */
     public void drillCards() {
         // functionality for 'drilling' cards by entering the answer manually
+
+        for (Card card: this.deck) {
+            System.out.println("FRONT: " + card.getFront() + "\n");
+
+            System.out.print("ANSWER: ");
+            String answer = UserInputMethods.getStringInput();
+
+            if (answer.equals(card.getBack())) {
+                System.out.println("\nCorrect.\n");
+            } else {
+                System.out.println("INCORRECT. ANSWER IS: " + card.getBack());
+            }
+        }
+
+        System.out.println("\nEND OF DECK\n"); // for debugging
     }
 
     /**
@@ -29,15 +48,16 @@ public class Deck {
     public void reviewCards() {
 
         for (Card card: this.deck) {
-            System.out.println("FRONT: " + card.getFront());
+            System.out.println("FRONT: " + card.getFront() + "\n");
 
-            System.out.println("BACK: " + card.getBack());
+            System.out.println("BACK: " + card.getBack() + "\n");
 
             System.out.print("Next? ENTER");
             UserInputMethods.getStringInput();
+            System.out.println();
         }
 
-        System.out.println("END OF DECK"); // for debugging
+        System.out.println("\nEND OF DECK\n");
     }
 
 
@@ -74,8 +94,18 @@ public class Deck {
         }
     }
 
+
+    /**
+     * This method deletes the deck from the database, along with all of its cards.
+     */
     public void deleteDeck() {
-        // functionality for deleting the entire deck of cards
+
+        // delete the deck and cards from the database
+        DeckDAO.deleteDeck(this.toString());
+
+        // refresh the deck names and display the main menu
+        UserInterface.deckNames = DeckDAO.getDeckNames();
+        UserInterface.displayDecks();
     }
 
     public String toString() {
